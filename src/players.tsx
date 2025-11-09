@@ -1,61 +1,92 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { useState } from "react";
 
 export default function Players() {
+  const questions = [
+    {
+      question: "What color is the sky?",
+      options: ["Blue", "Green", "Red", "Yellow"],
+      answer: "Blue",
+    },
+    {
+      question: "Which animal barks?",
+      options: ["Cat", "Dog", "Cow", "Bird"],
+      answer: "Dog",
+    },
+    {
+      question: "What planet do we live on?",
+      options: ["Mars", "Venus", "Earth", "Jupiter"],
+      answer: "Earth",
+    },
+  ];
 
-    type Players = {
-        full_name: "string",
-        player_id: "string",
-        college: "string",
-        age: "string"
+  const [index, setIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+
+  function handleAnswer(option) {
+    const current = questions[index];
+    if (option === current.answer) {
+      setScore(score + 1);
     }
 
-    const [players, setPlayers] = useState<Players[]>([])
-    const [searchPlayer, setSearchPlayer] = useState("")
+    const next = index + 1;
+    if (next < questions.length) {
+      setIndex(next);
+    } else {
+      setShowResult(true);
+    }
+  }
 
-    useEffect(() => {
-        try {
-            async function fetchApi() {
-                const req = await axios.get("https://api.sleeper.app/v1/players/nfl")
-                const reqArray = Object.values(req.data) as Players[]
-                const fifteenPlayers = reqArray.slice(0, 15)
-                setPlayers(fifteenPlayers)
-            }
+  function restartQuiz() {
+    setIndex(0);
+    setScore(0);
+    setShowResult(false);
+  }
 
-            fetchApi()
-        } catch (error) {
-            console.error("error to fetch the API")
-        }
-    }, [])
-
-    const filteredPlayers = players.filter((e) => `${e.full_name}`.toLowerCase().includes(searchPlayer.toLowerCase()))
-
+  if (showResult) {
     return (
-        <>
-            <input
-                type="text"
-                placeholder="enter a player..."
-                value={searchPlayer}
-                onChange={(event) => setSearchPlayer(event.target.value)}
-            />
-            <table>
-                <thead>
-                    <tr>
-                        <th>Players</th>
-                        <th>Age</th>
-                        <th>College</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredPlayers .map((e) => (
-                        <tr key={e.player_id}>
-                            <td>{e.full_name}</td>
-                            <td>{e.age}</td>
-                            <td>{e.college}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </>
-    )
+      <div style={styles.container}>
+        <h2>Your Score: {score} / {questions.length}</h2>
+        <button onClick={restartQuiz} style={styles.button}>Try Again</button>
+      </div>
+    );
+  }
+
+  const q = questions[index];
+  return (
+    <div style={styles.container}>
+      <h2>{q.question}</h2>
+      <div>
+        {q.options.map((opt) => (
+          <button
+            key={opt}
+            onClick={() => handleAnswer(opt)}
+            style={styles.button}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+      <p>Question {index + 1} of {questions.length}</p>
+    </div>
+  );
 }
+
+const styles = {
+  container: {
+    textAlign: "center",
+    padding: "40px",
+    fontFamily: "Arial",
+  },
+  button: {
+    display: "block",
+    margin: "10px auto",
+    padding: "10px 20px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+    backgroundColor: "orangered",
+    color: "white",
+    fontSize: "16px",
+    cursor: "pointer",
+  },
+};
