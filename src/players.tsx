@@ -1,92 +1,65 @@
-import { useState } from "react";
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 export default function Players() {
-  const questions = [
-    {
-      question: "What color is the sky?",
-      options: ["Blue", "Green", "Red", "Yellow"],
-      answer: "Blue",
-    },
-    {
-      question: "Which animal barks?",
-      options: ["Cat", "Dog", "Cow", "Bird"],
-      answer: "Dog",
-    },
-    {
-      question: "What planet do we live on?",
-      options: ["Mars", "Venus", "Earth", "Jupiter"],
-      answer: "Earth",
-    },
-  ];
 
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [showResult, setShowResult] = useState(false);
+  type Players = {
+    player_id: "string",
+    full_name: "string",
+    position: "string",
+    college: "string",
+    age: "string"
+  }
 
-  function handleAnswer(option) {
-    const current = questions[index];
-    if (option === current.answer) {
-      setScore(score + 1);
+  const [players, setPlayers] = useState<Players[]>([]);
+  const [filteredPlayers, setFilteredPlayers] = useState("");
+
+  useEffect(() => {
+    try {
+      async function fetchApi() {
+        const req = await axios.get("https://api.sleeper.app/v1/players/nfl")
+        const reqArray = Object.values(req.data) as Players[]
+        const fifteenPlayers = reqArray.slice(0, 15)
+        setPlayers(fifteenPlayers)
+      }
+
+      fetchApi()
+    } catch (error) {
+      console.error("error to fetch the API", error)
     }
+  }, [])
 
-    const next = index + 1;
-    if (next < questions.length) {
-      setIndex(next);
-    } else {
-      setShowResult(true);
-    }
-  }
+  const searchedPlayer = players.filter((e) => e.full_name.toLowerCase().includes(filteredPlayers.toLowerCase()))
 
-  function restartQuiz() {
-    setIndex(0);
-    setScore(0);
-    setShowResult(false);
-  }
 
-  if (showResult) {
-    return (
-      <div style={styles.container}>
-        <h2>Your Score: {score} / {questions.length}</h2>
-        <button onClick={restartQuiz} style={styles.button}>Try Again</button>
-      </div>
-    );
-  }
-
-  const q = questions[index];
   return (
-    <div style={styles.container}>
-      <h2>{q.question}</h2>
-      <div>
-        {q.options.map((opt) => (
-          <button
-            key={opt}
-            onClick={() => handleAnswer(opt)}
-            style={styles.button}
-          >
-            {opt}
-          </button>
-        ))}
-      </div>
-      <p>Question {index + 1} of {questions.length}</p>
-    </div>
-  );
+    <>
+      <input
+        type="text"
+        placeholder="enter a player.."
+        value={filteredPlayers}
+        onChange={(event) => setFilteredPlayers(event.target.value)}
+      />
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Age</th>
+            <th>College</th>
+            <th>Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchedPlayer.map((e) => (
+            <tr key={e.player_id}>
+              <td>{e.full_name}</td>
+              <td>{e.age}</td>
+              <td>{e.college}</td>
+              <td>{e.position}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )
 }
-
-const styles = {
-  container: {
-    textAlign: "center",
-    padding: "40px",
-    fontFamily: "Arial",
-  },
-  button: {
-    display: "block",
-    margin: "10px auto",
-    padding: "10px 20px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-    backgroundColor: "orangered",
-    color: "white",
-    fontSize: "16px",
-    cursor: "pointer",
-  },
-};

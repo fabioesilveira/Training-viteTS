@@ -1,7 +1,7 @@
 export default function Player() {
     return (
         <>
-            <h1>Hi</h1>
+            <h1>hi</h1>
         </>
     )
 }
