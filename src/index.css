@@ -1,16 +1,17 @@
-body {
-  padding: 20px;
+/* body {
   background-color: white;
+  padding: 20px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
 input {
   width: 500px;
-  height: 40px;
-  outline: none;
+  height: 30px;
+  padding: 5px;
   border-radius: 8px;
-  border: 2px solid #ccc;
+  outline: none;
   font-size: 18px;
-  margin-bottom: 10px;
+  border: 1.5px solid #ccc;
 }
 
 input:focus {
@@ -19,11 +20,11 @@ input:focus {
 
 table {
   width: 100%;
-  border-collapse: collapse;
   border-radius: 8px;
-  box-shadow: 0 2px 6px #ccc;
+  border-collapse: collapse;
   overflow: hidden;
-  font-size: 18px;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px #ccc;
 }
 
 thead {
@@ -33,10 +34,124 @@ thead {
 
 th, td {
   text-align: left;
-  padding: 10px;
-  font-size: 20px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 15px;
+  border-bottom: 1.5px solid #f0f0f0;
 }
+
+
+
+
+ */
+
+body {
+  background-color: white;
+  padding: 10px;
+  font-family: sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+  overflow: hidden;
+  border-collapse: collapse;
+  border-radius: 8px;
+  font-size: 18px;
+  box-shadow: 0 2px 6px #ccc;
+}
+
+thead {
+  background-color: orangered;
+  color: white;
+}
+
+th {
+  text-align: left;
+  padding: 10px;
+}
+
+tr, td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1.5px solid #f0f0f0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* body {
+  padding: 20px;
+  background-color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: black;
+}
+
+table {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px #ccc;
+    overflow: hidden;
+    border-collapse: collapse;
+    font-size: 20px;
+}
+
+
+thead {
+  background-color: orangered;
+  color: white;
+}
+
+
+td, th {
+  text-align: left;
+  border-bottom: 1.5px solid #f0f0f0;
+  padding: 8px;
+}
+
+input {
+  width: 500px;
+  outline: none;
+  margin-bottom: 20px;
+  height: 35px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  font-size: 18px;
+}
+
+input:focus {
+  border-color: orangered;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
